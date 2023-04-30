@@ -1,7 +1,7 @@
 # langchain-cohere-qdrant-doc-retrieval
 This Flask backend API takes a document in multiple formats (.txt, .docx, .pptx, .jpg, .png, .eml, .html, and .pdf) and allows you to perform a semantic search in 100+ languages supported by Cohere Multilingual API. Qdrant vector database is used to save embeddings.
 
-## Installation
+### Installation
 
 Install all the python dependencies using pip
 
@@ -15,11 +15,11 @@ Documents are read and extracted using a library named [Unstructured](https://un
 brew install libmagic poppler tesseract libxml2 libxslt
 ```
 
-# Qdrant setup
+### Qdrant setup
 
 Please make an account on [Qdrant](https://qdrant.tech/) and create a new cluster. You will then be able to get the qdrant_url and qdrant_api_key used in the section below.
 
-## Environment variables
+### Environment variables
 
 Please assign environment variables as follows.
 ```
@@ -29,7 +29,7 @@ qdrant_url="insert here"
 qdrant_api_key="insert here"
 ```
 
-## Run the app
+### Run the app
 
 Run the app using Gunicorn command
 

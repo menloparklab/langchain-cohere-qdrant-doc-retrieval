@@ -1,6 +1,5 @@
 from flask import Flask, request
 from flask_cors import CORS
-import json
 import urllib.request
 
 # Loading environment variables
@@ -21,9 +20,9 @@ CORS(app)
 def hello_world():
     return {"Hello":"World"}
 
-## Embedding code
+# Embedding of a document
 from langchain.embeddings import CohereEmbeddings
-from langchain.document_loaders import UnstructuredFileLoader
+from langchain.document_loaders import UnstructuredFileLoader, PyPDFLoader
 from langchain.vectorstores import Qdrant
 
 @app.route('/embed', methods=['POST'])
@@ -31,26 +30,29 @@ def embed_pdf():
     collection_name = request.json.get("collection_name")
     file_url = request.json.get("file_url")
 
-    #download the file from the url provided
+    # Download the file from the url provided
     folder_path = f'./'
     os.makedirs(folder_path, exist_ok=True) # Create the folder if it doesn't exist
     filename = file_url.split('/')[-1] # Filename for the downloaded file
     file_path = os.path.join(folder_path, filename) # Full path to the downloaded file
     
-    import ssl
+    import ssl # not the best for production use to not verify ssl, but fine for testing
     ssl._create_default_https_context = ssl._create_unverified_context
 
     urllib.request.urlretrieve(file_url, file_path) # Download the file and save it to the local folder
 
-    # document embedding
-    loader = UnstructuredFileLoader(file_path)
-    docs = loader.load_and_split()
-    print(docs)
+    # Checking filetype for document parsing, PyPDF is a lot faster than Unstructured for pdfs.
+    import mimetypes
+    mime_type = mimetypes.guess_type(file_path)[0]
+    if mime_type == 'application/pdf':
+        loader = PyPDFLoader(file_path)
+        docs = loader.load_and_split()
+    else:
+        loader = UnstructuredFileLoader(file_path)
+        docs = loader.load()
+    # Generate embeddings
     embeddings = CohereEmbeddings(model="multilingual-22-12", cohere_api_key=cohere_api_key)
-    print(embeddings)
-    print('embedding done')
     qdrant = Qdrant.from_documents(docs, embeddings, url=qdrant_url, collection_name=collection_name, prefer_grpc=True, api_key=qdrant_api_key)
-    print(qdrant)
     os.remove(file_path) # Delete downloaded file
     return {"collection_name":qdrant.collection_name}
 

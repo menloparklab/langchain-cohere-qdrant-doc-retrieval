@@ -1,27 +1,56 @@
 # langchain-cohere-qdrant-doc-retrieval
 This Flask backend API takes a document in multiple formats (.txt, .docx, .pptx, .jpg, .png, .eml, .html, and .pdf) and allows you to perform a semantic search in 100+ languages supported by Cohere Multilingual API. Qdrant vector database is used to save embeddings.
 
+## Setup
+
+The following steps will guide you on how to run the application on macOS/Linux.
+
+### Prerequisites
+
+- Python 3
+- Git
+- virtualenv
+- Homebrew
+
 ### Installation
 
-Install all the python dependencies using pip
+1. Clone the repository
 
-```bash
+```
+git clone https://github.com/menloparklab/langchain-cohere-qdrant-doc-retrieval docQA
+```
+
+2. Change into the directory
+
+```
+cd docQA
+```
+
+3. Create and activate a virtual environment
+
+```
+python3 -m venv env
+source env/bin/activate
+```
+
+4. Install the required packages
+
+```
 pip install -r requirements.txt
 ```
 
-Documents are read and extracted using a library named [Unstructured](https://unstructured-io.github.io/unstructured/index.html) which requires addition installations using Brew
+5. Install Homebrew 
 
-```bash
+Follow the installation guide on [Homebrew website](https://brew.sh/).
+
+6. Install the following brew packages
+
+```
 brew install libmagic poppler tesseract libxml2 libxslt
 ```
 
-### Qdrant setup
+7. Create a `.env` file and set the following environment variables:
 
-Please make an account on [Qdrant](https://qdrant.tech/) and create a new cluster. You will then be able to get the qdrant_url and qdrant_api_key used in the section below.
-
-### Environment variables
-
-Please assign environment variables as follows.
 ```
 cohere_api_key="insert here"
 openai_api_key="insert here"
@@ -29,15 +58,30 @@ qdrant_url="insert here"
 qdrant_api_key="insert here"
 ```
 
-### Run the app
+Replace the values with your own API keys and Qdrant URL.
 
-Run the app using Gunicorn command
+##### Qdrant url and api keys
 
-```bash
+Please signup for a free cloud-based account of [Qdrant](https://qdrant.tech/) and create a new cluster. You will then be able to get the qdrant_url and qdrant_api_key used in the section above.
+
+8. Run the application using the following command:
+
+```
 gunicorn app:app
 ```
 
-The app should now be running with an api route ```/embed``` and another api route ```/retrieve```.
+9. Access the API endpoints
+
+The API endpoints will be live at the following routes:
+
+- `/embed`
+- `/retrieve`
+
+### Conclusion
+
+You have successfully installed and ran the DocQA system on your local machine. Feel free to explore the code and make changes as per your requirements.
+
+
 
 Feel free to reach out if any questions on [Twitter](https://twitter.com/MisbahSy)
 

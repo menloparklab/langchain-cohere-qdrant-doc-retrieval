@@ -81,7 +81,54 @@ The API endpoints will be live at the following routes:
 
 You have successfully installed and ran the DocQA system on your local machine. Feel free to explore the code and make changes as per your requirements.
 
+### Connecting to a frontend
 
+The deployed api endpoints, `/embed` and `/retrieve` can now be called from any frontend application. For bubble users, you can watch [this video](https://youtu.be/hOrtuumOrv8) for detailed instructions.
+
+Include headers for the API:
+"Content-Type": "application/json"
+
+JSON body for `/embed`:
+<br>
+`
+{
+"collection_name": "{collection_name}",
+"file_url": "{file_url}"
+}
+`
+<br>
+
+JSON body for `/retrieve`:
+<br>
+`
+{
+"collection_name": "{collection_name}",
+"query": "{query}"
+}
+`
+<br>
+<br>
+
+##### For Bubble users
+Embed JSON for the bubble:
+<br>
+`
+{ 
+"collection_name": "<collection_name>",
+"file_url": "<file_url>"
+}
+`
+<br>
+
+Retrieve JSON for bubble:
+<br>
+`
+{
+"collection_name": "<collection_name>",
+"query": "<query>"
+}
+`
+<br>
 
 Feel free to reach out if any questions on [Twitter](https://twitter.com/MisbahSy)
 

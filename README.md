@@ -39,6 +39,12 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
+Unstructured uses detectron which is installed as below:
+
+```
+pip install "detectron2@git+https://github.com/facebookresearch/detectron2.git@v0.6#egg=detectron2"
+```
+
 5. Install Homebrew 
 
 Follow the installation guide on [Homebrew website](https://brew.sh/).
